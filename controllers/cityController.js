@@ -37,12 +37,28 @@ const cityContoller = {
             }
 
         }catch(error){
+            console.log(error)
             res.status(400).json({
                 message: "error",
                 success: false
             })
         }
+    },
+    all: async (req,res)=>{
+        let cities
+        try{
+            cities = await City.find()
+            res.json(cities)
+        } catch(error){
+            console.log(error)
+            res.status(500).json({
+                message: "server error",
+                success: false
+            })
+        }
+        
     }
+
 }
 
 module.exports = cityContoller
