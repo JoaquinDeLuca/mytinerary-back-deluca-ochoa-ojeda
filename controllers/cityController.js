@@ -51,19 +51,33 @@ const cityContoller = {
 
         if (req.query.city) {
             query.city = req.query.city
+
+            try {
+                cities = await City.find({ city: startWidth })
+                res.json(cities)
+            } catch (error) {
+                console.log(error)
+                res.status(500).json({
+                    message: "server error",
+                    success: false
+                })
+            }
         }
-        try {
-            cities = await City.find({ city: startWidth })
-            res.json(cities)
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({
-                message: "server error",
-                success: false
-            })
+        else {
+            try {
+                cities = await City.find()
+                res.json(cities)
+            } catch (error) {
+                console.log(error)
+                res.status(500).json({
+                    message: "server error",
+                    success: false
+                })
+            }
         }
 
     },
+
     //funcion que elimina ciudades por la id
     remove: async (req, res) => {
         const { id } = req.params
