@@ -11,3 +11,10 @@ const schema = new mongoose.Schema({
     tags:{     type: Array, required: true},
     duration:{ type: Number, required: true },
 })
+
+const Itinerary = mongoose.model(
+    'itinerarys',
+    schema
+)
+
+module.exports = Itinerary
