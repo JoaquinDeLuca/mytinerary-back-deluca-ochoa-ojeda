@@ -12,7 +12,7 @@ const schema = new mongoose.Schema ({
 })
 
 const User = mongoose.model(
-    'Users',
+    'User',
     schema
 )
 
