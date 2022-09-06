@@ -74,7 +74,8 @@ const itineraryController = {
         const { id } = req.params
 
         try{
-            let itinerary = await Itinerary.findOne({ _id: id})
+            let itinerary = await Itinerary.findOne({_city:id})
+            console.log(itinerary)
 
             if(itinerary){
                 res.status(200).json({
