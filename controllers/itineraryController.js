@@ -121,7 +121,8 @@ const itineraryController = {
         const {id} = req.params
         try{
             let user = await Itinerary.find({ user : id})
-            .populate()
+            .populate('user', {name: 1, photo: 1})
+            .populate('city', {city: 1, photo: 1})
 
             if(user) {
                 res.status(200).json({
