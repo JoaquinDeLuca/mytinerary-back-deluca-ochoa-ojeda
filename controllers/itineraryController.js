@@ -117,7 +117,32 @@ const itineraryController = {
             })
         }
     },
+    readFromUser: async (req, res) => {
+        const {id} = req.params
+        try{
+            let user = await Itinerary.find({ user : id})
+            .populate()
 
+            if(user) {
+                res.status(200).json({
+                    message:"you get the itineraries of a user",
+                    response: user,
+                    success: true
+                })
+            }else{
+                res.status(404).json({
+                    message:"could't find the itineraries of a user",
+                    success: false
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                message:"error",
+                succes: false
+            })
+        }
+    }
 
 }
 
