@@ -26,7 +26,7 @@ describe('GET /itineraries' ,function (){
 })
 
 describe('POST /itineraries', function (){
-    it('mensaje', function (done){
+    it('new itinerary created, with 200 status code', function (done){
         request(app)
             .post('/itineraries')
             .send({
