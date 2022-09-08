@@ -3,11 +3,14 @@ const City = require('../models/City')
 const cityContoller = {
     create: async (req, res) => {
         const { city, country, photo, population, fundation, information } = req.body
+
+
         try {
-            await new City(req.body).save() // req.body tiene que tener, todas las varibles descriptas
+           let cities = await new City(req.body).save() // req.body tiene que tener, todas las varibles descriptas
             res.status(201).json({
                 message: 'city created',
-                success: true
+                success: true,
+                id: cities._id
             })
         } catch (error) {
             res.status(400).json({
