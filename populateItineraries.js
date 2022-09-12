@@ -21,7 +21,7 @@ let itineraries = [
     {
         name: "View of roma",
         user:"6312d4360f07f1980c45cf3a", 
-        city:"630ef554a3889f89c52ef423", // roma
+        city:"63196471e10c5580c1c84398", // roma
         price:"25",
         likes:[1],
         tags:[1],
@@ -30,7 +30,7 @@ let itineraries = [
     {
         name: "Visit Madrid",
         user:"6312d4360f07f1980c45cf3a", 
-        city:"630ef554a3889f89c52ef422", // madrid
+        city:"63196471e10c5580c1c84397", // madrid
         price:"25",
         likes:[4],
         tags:[2],
@@ -39,7 +39,7 @@ let itineraries = [
     {
         name: "Visit venice",
         user:"6312d4360f07f1980c45cf3a", 
-        city:"630ef554a3889f89c52ef424", // venice
+        city:"63196471e10c5580c1c84399", // venice
         price:"25",
         likes:[2],
         tags:[2],
@@ -51,7 +51,7 @@ let itineraries = [
     {
         name: "Visit Brussels",
         user:"6312d4360f07f1980c45cf3a",
-        city:"630ef554a3889f89c52ef425", // Brussels
+        city:"63196471e10c5580c1c8439a", // Brussels
         price:"25",
         likes:[2],
         tags:[2],
@@ -60,7 +60,7 @@ let itineraries = [
     {
         name: "recorrido de Brussels",
         user:"63166798f7114d065c7569d8",
-        city:"630ef554a3889f89c52ef425", // Brussels
+        city:"63196471e10c5580c1c8439a", // Brussels
         price:"25",
         likes:[2],
         tags:[2],
@@ -69,7 +69,7 @@ let itineraries = [
     {
         name: "adventure Santiago de Chile",
         user:"631668625d3aaaa3e377a656", 
-        city:"630ef554a3889f89c52ef426", // Santiago de chile
+        city:"63196471e10c5580c1c8439b", // Santiago de chile
         price:"25",
         likes:[2],
         tags:[2],
@@ -78,7 +78,7 @@ let itineraries = [
     {
         name: "crossing Santiago de Chile",
         user:"631668625d3aaaa3e377a656", 
-        city:"630ef554a3889f89c52ef426", // Santiago de chile
+        city:"63196471e10c5580c1c8439b", // Santiago de chile
         price:"25",
         likes:[2],
         tags:[2],
@@ -87,7 +87,7 @@ let itineraries = [
     {
         name: "Circuit Buenos Aires",
         user:"63166798f7114d065c7569d8", 
-        city:"630ef554a3889f89c52ef420", // Buenos Aires
+        city:"63196471e10c5580c1c84395", // Buenos Aires
         price:"25",
         likes:[2],
         tags:[1],
@@ -96,7 +96,7 @@ let itineraries = [
     {
         name: "Routes Buenos Aires",
         user:"63166798f7114d065c7569d8", 
-        city:"630ef554a3889f89c52ef420", // Buenos Aires
+        city:"63196471e10c5580c1c84395", // Buenos Aires
         price:"25",
         likes:[1],
         tags:[1],
@@ -106,7 +106,7 @@ let itineraries = [
     {
         name: "EIFFEL TOWER Paris",
         user:"63166798f7114d065c7569d8",
-        city:"630ef554a3889f89c52ef42b", // Paris
+        city:"63196471e10c5580c1c843a0", // Paris
         price:"25",
         likes:[1],
         tags:[1],
@@ -115,7 +115,7 @@ let itineraries = [
     {
         name: "NOTRE DAME CATHEDRAL Paris",
         user:"63166798f7114d065c7569d8", 
-        city:"631668625d3aaaa3e377a656", // Paris
+        city:"63196471e10c5580c1c843a0", // Paris
         price:"25",
         likes:[1],
         tags:[1],
@@ -124,7 +124,7 @@ let itineraries = [
     {
         name: "LATIN QUARTER Paris",
         user:"631668625d3aaaa3e377a656",
-        city:"630ef554a3889f89c52ef42b", // Paris
+        city:"63196471e10c5580c1c843a0", // Paris
         price:"25",
         likes:[1],
         tags:[1],
@@ -134,7 +134,7 @@ let itineraries = [
     {
         name: "MIRAFLOWERS Lima",
         user:"631668625d3aaaa3e377a656", 
-        city:"630ef554a3889f89c52ef427", // Lima
+        city:"63196471e10c5580c1c8439c", // Lima
         price:"25",
         likes:[1],
         tags:[1],
@@ -143,7 +143,7 @@ let itineraries = [
     {
         name: "HISTORICAL CENTER Lima",
         user:"63166798f7114d065c7569d8", 
-        city:"630ef554a3889f89c52ef427", // Lima
+        city:"63196471e10c5580c1c8439c", // Lima
         price:"25",
         likes:[2],
         tags:[2],
@@ -152,7 +152,7 @@ let itineraries = [
     {
         name: "RAVINE Lima",
         user:"63166798f7114d065c7569d8", 
-        city:"630ef554a3889f89c52ef427", // Lima
+        city:"63196471e10c5580c1c8439c", // Lima
         price:"25",
         likes:[2],
         tags:[1],
@@ -162,7 +162,7 @@ let itineraries = [
     {
         name: "london theater",
         user:"63166798f7114d065c7569d8", 
-        city:"630ef554a3889f89c52ef428", // London
+        city:"63196471e10c5580c1c8439d", // London
         price:"25",
         likes:[2],
         tags:[1],
@@ -171,7 +171,7 @@ let itineraries = [
     {
         name: "london Riverside of the Thames",
         user:"6312d4360f07f1980c45cf3a", 
-        city:"630ef554a3889f89c52ef428", // London
+        city:"63196471e10c5580c1c8439d", // London
         price:"25",
         likes:[1],
         tags:[2],
@@ -180,7 +180,7 @@ let itineraries = [
     {
         name: "london Covent Garden",
         user:"6312d4360f07f1980c45cf3a", 
-        city:"630ef554a3889f89c52ef428", // London
+        city:"63196471e10c5580c1c8439d", // London
         price:"25",
         likes:[1],
         tags:[2],
