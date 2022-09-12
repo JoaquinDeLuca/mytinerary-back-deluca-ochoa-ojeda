@@ -2,12 +2,15 @@ const City = require('../models/City')
 
 const cityContoller = {
     create: async (req, res) => {
-        const { city, country, photo, population, fundation } = req.body
+        const { city, country, photo, population, fundation, information } = req.body
+
+
         try {
-            await new City(req.body).save() // req.body tiene que tener, todas las varibles descriptas
+           let cities = await new City(req.body).save() // req.body tiene que tener, todas las varibles descriptas
             res.status(201).json({
                 message: 'city created',
-                success: true
+                success: true,
+                id: cities._id
             })
         } catch (error) {
             res.status(400).json({
@@ -20,6 +23,7 @@ const cityContoller = {
     },
     read: async (req, res) => {
         const { id } = req.params
+        console.log(id)
         try {
             let city = await City.findOne({ _id: id })
 
@@ -47,13 +51,13 @@ const cityContoller = {
     all: async (req, res) => {
         let cities
         let query = {}
-        let startWidth = { $regex: "^" + req.query.city, $options: 'i' + req.query.city }
+        let startWith = { $regex: "^" + req.query.city, $options: 'i' + req.query.city }
 
         if (req.query.city) {
             query.city = req.query.city
 
             try {
-                cities = await City.find({ city: startWidth })
+                cities = await City.find({ city: startWith })
                 res.json(cities)
             } catch (error) {
                 console.log(error)
