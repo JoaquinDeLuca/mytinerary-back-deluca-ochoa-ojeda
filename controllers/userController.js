@@ -3,6 +3,7 @@ const crypto = require('crypto') //libreria generadora de codigos unicos basada 
 const bcryptjs = require('bcryptjs') //recurso propio de node para hacer un "hash" en las contraseñas
 const sendMail = require('./sendMail')
 
+
 const userController = {
     signUp: async (req, res) => {
         let { name, lastName, mail, password, photo, country, role, from } = req.body
@@ -64,9 +65,42 @@ const userController = {
             })
         }
     },
+    // codigo unico generado en singup, se pasa por params para poder
+    // verificar la cuenta
+    // si enceuntra el usuario cambio el verifed de false a true
+    verifyMail: async (req, res) => { 
+        const {code} = req.params
+        let user = await User.findOne({code: code})
+        try{
+            if (user){
+                user.verified = true // cambio la propiedad 
+                await user.save() // guardo los cambios
+                res.redirect('https://my-tinerary-front-agunicjoa.herokuapp.com/')
+    
+            }else {
+                res.status(404).json({
+                    message: "email has not account yet",
+                    success: false
+                })
+            }
 
-    verifyMail: async () => { },
+        } catch (error){
+            console.log(error)
+            res.status(400).json({
+                message: "error",
+                success: false
+            })
+        }
+
+
+
+
+
+
+    },
+
     signIn: async () => { },
+
     signOut: async () => { } // cambia el estado de logger de true a false
 }
 
