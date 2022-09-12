@@ -38,12 +38,14 @@ const sendMail = async (mail, code) => {
         subject: 'Verify MyTinerary acount',
         html: `
             <div>
-                <H1>Verified acount</H1>
+                <H1>Verified acount ${mail}</H1>
+                <a href='http://localhost:4000/auth/verify/${code}'>Click to verify!</a>
             </div>
         `
         //codigo HTML que se renderiza en el cuerpo del mail
         //en el cuerpo envia un link de redireccion que verifique la cuenta
         //ese link se conecta con el metodo correspondiente para la verificacion 
+        // elocal host se tiene que cambiar por la url del back
     }
 
     await transport.sendMail(mailOptions,
