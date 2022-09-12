@@ -91,6 +91,93 @@ const userController = {
                 success: false
             })
         }
+    },
+
+    signIn: async (req, res) => {
+        let {mail, password, from} = req.body
+        
+        let user = await User.findOne({mail})
+
+        try{
+            if(!user){
+                res.status(404).json({
+                    message: "user doos't exists, please sing up",
+                    success: false
+                })
+            } else if (user.verified) { // si usuario existe y esta verifica
+
+                const checkPass = user.password.filter( pass => bcryptjs.compareSync(password , pass))
+
+                if(from === "form"){ // si el usuario iintenta ingresar por form 
+                    
+                    if(checkPass.length > 0){ // si contraseña coincide
+
+                        const loginUser ={
+                            id: user._id,
+                            name: user.name,
+                            mail: user.mail,
+                            photo: user.photo,
+                            role: user.role
+                        }
+
+                        user.logged = true 
+                        await user.save()
+
+                        res.status(200).json({
+                            message: "welcome" + user.name,
+                            response: {user: loginUser},
+                            success: true
+                        })
+
+                    } else { // si contraseña no coincide
+                        res.status(200).json({
+                            message: "username  or password incorrect",
+                            success: false
+                        })
+                    }
+
+                } else { // si el usuario intenta ingresar por redes sociales
+                    if(checkPass.length > 0){ // si contraseña coincide
+
+                        const loginUser ={
+                            id: user._id,
+                            name: user.name,
+                            mail: user.mail,
+                            photo: user.photo,
+                            role: user.role
+                        }
+
+                        user.logged = true 
+                        await user.save()
+
+                        res.status(200).json({
+                            message: "welcome " + user.name,
+                            response: {user: loginUser},
+                            success: true
+                        })
+
+                    } else { // si contraseña no coincide
+                        res.status(200).json({
+                            message: "invalid credentials",
+                            success: false
+                        })
+                    }
+                }
+
+            } else {// si usuairo existe pero no esta verifacado
+                res.status(401).json({
+                    message: "please, verify your email account and try again",
+                    success: false
+                })
+            }
+        } catch(error) {
+            console.log(error)
+            res.status(400).json({
+                message: "sing in error, try again later",
+                success: false
+            })
+        }
+
 
 
 
@@ -98,8 +185,6 @@ const userController = {
 
 
     },
-
-    signIn: async () => { },
 
     signOut: async () => { } // cambia el estado de logger de true a false
 }
