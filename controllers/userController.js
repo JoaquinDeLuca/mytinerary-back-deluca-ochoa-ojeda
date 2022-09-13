@@ -193,7 +193,7 @@ const userController = {
             }
             else {
                 res.status(404).json({
-                    message: "usuario no encontrado",
+                    message: "user not found",
                     success: false
                 })
             }
