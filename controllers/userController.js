@@ -68,23 +68,23 @@ const userController = {
     // codigo unico generado en singup, se pasa por params para poder
     // verificar la cuenta
     // si enceuntra el usuario cambio el verifed de false a true
-    verifyMail: async (req, res) => { 
-        const {code} = req.params
-        let user = await User.findOne({code: code})
-        try{
-            if (user){
+    verifyMail: async (req, res) => {
+        const { code } = req.params
+        let user = await User.findOne({ code: code })
+        try {
+            if (user) {
                 user.verified = true // cambio la propiedad 
                 await user.save() // guardo los cambios
                 res.redirect('https://my-tinerary-front-agunicjoa.herokuapp.com/')
-    
-            }else {
+
+            } else {
                 res.status(404).json({
                     message: "email has not account yet",
                     success: false
                 })
             }
 
-        } catch (error){
+        } catch (error) {
             console.log(error)
             res.status(400).json({
                 message: "error",
@@ -94,25 +94,25 @@ const userController = {
     },
 
     signIn: async (req, res) => {
-        let {mail, password, from} = req.body
-        
-        let user = await User.findOne({mail})
+        let { mail, password, from } = req.body
 
-        try{
-            if(!user){
+        let user = await User.findOne({ mail })
+
+        try {
+            if (!user) {
                 res.status(404).json({
                     message: "user doos't exists, please sing up",
                     success: false
                 })
             } else if (user.verified) { // si usuario existe y esta verifica
 
-                const checkPass = user.password.filter( pass => bcryptjs.compareSync(password , pass))
+                const checkPass = user.password.filter(pass => bcryptjs.compareSync(password, pass))
 
-                if(from === "form"){ // si el usuario iintenta ingresar por form 
-                    
-                    if(checkPass.length > 0){ // si contraseña coincide
+                if (from === "form") { // si el usuario iintenta ingresar por form 
 
-                        const loginUser ={
+                    if (checkPass.length > 0) { // si contraseña coincide
+
+                        const loginUser = {
                             id: user._id,
                             name: user.name,
                             mail: user.mail,
@@ -120,12 +120,12 @@ const userController = {
                             role: user.role
                         }
 
-                        user.logged = true 
+                        user.logged = true
                         await user.save()
 
                         res.status(200).json({
                             message: "welcome" + user.name,
-                            response: {user: loginUser},
+                            response: { user: loginUser },
                             success: true
                         })
 
@@ -137,9 +137,9 @@ const userController = {
                     }
 
                 } else { // si el usuario intenta ingresar por redes sociales
-                    if(checkPass.length > 0){ // si contraseña coincide
+                    if (checkPass.length > 0) { // si contraseña coincide
 
-                        const loginUser ={
+                        const loginUser = {
                             id: user._id,
                             name: user.name,
                             mail: user.mail,
@@ -147,12 +147,12 @@ const userController = {
                             role: user.role
                         }
 
-                        user.logged = true 
+                        user.logged = true
                         await user.save()
 
                         res.status(200).json({
                             message: "welcome " + user.name,
-                            response: {user: loginUser},
+                            response: { user: loginUser },
                             success: true
                         })
 
@@ -170,23 +170,42 @@ const userController = {
                     success: false
                 })
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             res.status(400).json({
                 message: "sing in error, try again later",
                 success: false
             })
         }
-
-
-
-
-
-
-
     },
 
-    signOut: async () => { } // cambia el estado de logger de true a false
+    signOut: async (req, res) => {
+        const { id } = req.params
+        let user = await User.findOne({ _id: id })
+        try {
+            if (user) {
+                user.logged = false // cambio la propiedad 
+                await user.save() // guardo los cambios
+                res.status(200).json({
+                    message: "user logout",
+                    success: true
+                })
+            }
+            else {
+                res.status(404).json({
+                    message: "user not found",
+                    success: false
+                })
+            }
+        }
+        catch (error) {
+            console.log(error)
+            res.status(400).json({
+                message: "error",
+                success: false
+            })
+        }
+    } // cambia el estado de logger de true a false
 }
 
 module.exports = userController
