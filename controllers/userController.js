@@ -180,8 +180,8 @@ const userController = {
     },
 
     signOut: async (req, res) => {
-        const { id } = req.params
-        let user = await User.findOne({ _id: id })
+        const { mail } = req.params
+        let user = await User.findOne({ mail: mail })
         try {
             if (user) {
                 user.logged = false // cambio la propiedad 
