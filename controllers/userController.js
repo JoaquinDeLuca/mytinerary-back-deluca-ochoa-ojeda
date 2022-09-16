@@ -205,7 +205,32 @@ const userController = {
                 success: false
             })
         }
-    } // cambia el estado de logger de true a false
+    }, // cambia el estado de logger de true a false
+    readUser: async (req, res) => {
+        const {id} = req.params
+        try{
+            let user = await User.findOne({ _id : id})
+
+            if(user) {
+                res.status(200).json({
+                    message:"you get the User",
+                    response: user,
+                    success: true
+                })
+            }else{
+                res.status(404).json({
+                    message:"could't find the User",
+                    success: false
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                message:"error",
+                succes: false
+            })
+        }
+    }
 }
 
 module.exports = userController
