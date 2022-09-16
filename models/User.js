@@ -6,12 +6,7 @@ const schema = new mongoose.Schema({
     lastName: { type: String, required: true, min:3, max: 30 },
     mail: { type: String, required: true },
     password: [{ type: String, required: true, min: 6 }], //debe ser un array, debido a que se pueden agregar una contraseña por cada from
-    photo: { type: String, required: true,
-        validate: function (value) {
-            if (!value.startsWith('http') && !value.endsWith('png') || !value.endsWith('jpg') ) {
-                throw new Error('INVALID_URL')
-            }
-        }},    
+    photo: { type: String, required: true},  
     country: { type: String, required: true, min: 3 },
     role: { type: String, required: true }, //el rol por defecto es user normal, otras opciones pueden ser admin o master
     from: [{ type: String, required: true }], //desde donde el user hizo login (google,facebook o formulario), es de tipo array debido a que puede logearse desde multiples lugares.
