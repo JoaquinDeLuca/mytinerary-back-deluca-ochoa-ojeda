@@ -2,13 +2,28 @@ const User = require('../models/User')
 const crypto = require('crypto') //libreria generadora de codigos unicos basada en crypto
 const bcryptjs = require('bcryptjs') //recurso propio de node para hacer un "hash" en las contraseñas
 const sendMail = require('./sendMail')
+const Joi = require('joi')
 
+const validator = Joi.object({
+    name: Joi.string().min(3).max(30).required(),
+    lastName: Joi.string().min(2).max(30).required(),
+    mail: Joi.string().required(),
+    password: Joi.string().alphanum().required(),
+    photo: Joi.string().uri().required(),
+    country: Joi.string().min(3).required(),
+    role: Joi.string().required(),
+    from: Joi.string().required(),
+});
 
 const userController = {
     signUp: async (req, res) => {
         let { name, lastName, mail, password, photo, country, role, from } = req.body
         //el rol y el from tienen que venir desde el frontend
         try {
+
+            let result = await validator.validateAsync(req.body)
+           
+            
             let user = await User.findOne({ mail })
             console.log("tu mail es " + mail)
             if (!user) {
@@ -60,7 +75,7 @@ const userController = {
         }
         catch (error) {
             res.status(400).json({
-                message: "couldn't signed up",
+                message: error.message,
                 success: false
             })
         }

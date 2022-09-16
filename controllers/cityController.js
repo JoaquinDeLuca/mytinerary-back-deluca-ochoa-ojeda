@@ -1,11 +1,24 @@
 const City = require('../models/City')
+const Joi = require('joi')
+
+const validator = Joi.object({
+    "city": Joi.string(),
+    "country": Joi.string(),
+    "photo": Joi.string().uri().message('INVALID_URL'),
+    "population": Joi.number().min(1000).max(100000000),
+    "fundation": Joi.number(),
+    "information": Joi.string().min(0).max(1000),
+})
 
 const cityContoller = {
     create: async (req, res) => {
         const { city, country, photo, population, fundation, information } = req.body
 
-
         try {
+            //valido antes de llegar al modelo para que guarde
+            let result = await validator.validateAsync(req.body)
+            console.log(result)
+            
            let cities = await new City(req.body).save() // req.body tiene que tener, todas las varibles descriptas
             res.status(201).json({
                 message: 'city created',
@@ -13,8 +26,9 @@ const cityContoller = {
                 id: cities._id
             })
         } catch (error) {
+            console.log(error)
             res.status(400).json({
-                message: "could't create city",
+                message: error.message,
                 success: false
             })
 
