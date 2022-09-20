@@ -1,8 +1,24 @@
 const Itinerary = require('../models/Itinerary')
+const Joi = require('joi')
+
+const validator = Joi.object({
+    
+    "name": Joi.string().min(4).max(50).required(),
+    "user": Joi.string().required(),
+    "city": Joi.string().required(),
+    "price": Joi.number().integer().min(1).max(10).required(),
+    "likes": Joi.array().required(),
+    "tags": Joi.array().items(Joi.string()).required(),
+    "duration": Joi.number().integer().min(1).max(12).required(),
+  });
 
 const itineraryController = {
     create: async (req, res) => {
         try {
+
+            let result = await validator.validateAsync(req.body)
+            console.log(result)
+
             await new Itinerary(req.body).save()
             res.status(201).json({
                 message: "new itinerary created",
@@ -11,7 +27,7 @@ const itineraryController = {
         }
         catch (error) {
             res.status(400).json({
-                message: "couldn't create itinerary",
+                message: error.message,
                 success: false
             })
         }
@@ -133,6 +149,33 @@ const itineraryController = {
             }else{
                 res.status(404).json({
                     message:"could't find the itineraries of a user",
+                    success: false
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                message:"error",
+                succes: false
+            })
+        }
+    },
+    readFromId: async (req, res) => {
+        const {id} = req.params
+        try{
+            let user = await Itinerary.find({ _id : id})
+            .populate('user', {name: 1, photo: 1})
+            .populate('city', {city: 1, photo: 1})
+
+            if(user) {
+                res.status(200).json({
+                    message:"you get the itineraries",
+                    response: user,
+                    success: true
+                })
+            }else{
+                res.status(404).json({
+                    message:"could't find the itineraries",
                     success: false
                 })
             }
