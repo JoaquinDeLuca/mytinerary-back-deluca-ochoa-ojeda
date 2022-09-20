@@ -186,6 +186,50 @@ const itineraryController = {
                 succes: false
             })
         }
+    },
+    likeAndDislike: async(req, res) => {
+        // id del usuario que va dar/quitar like 
+        // el itinerario que se quire dar like
+        let {id} = req.params
+
+        let {userId} = req.user.id
+
+        try {
+            let itinerary = await Itinerary.finOne({ _id: id })
+            // si encuentro el itnerario armo la logica de like 
+            if (itinerary.likes.includes(userId)) {
+
+                itinerary.likes.pull(userId)
+                await itinerary.save()
+                res.status(200).json({
+                    message:"Itinerary disliked",
+                    succes: true
+                })
+
+            } else if (!itinerary.likes.includes(userId)) {
+
+                itinerary.likes.push(userId)
+                await itinerary.save()
+                res.status(200).json({
+                    message:"Itinerary liked",
+                    succes: true
+                })
+
+            } else {
+                res.status(404).json({
+                    message:"Itinerary not found",
+                    succes: true
+                })
+            }
+
+        } catch (error){
+            console.log(error)
+            res.status(400).json({
+                message:"error",
+                succes: false
+            })
+        }
+
     }
 
 }
