@@ -3,6 +3,7 @@ const crypto = require('crypto') //libreria generadora de codigos unicos basada 
 const bcryptjs = require('bcryptjs') //recurso propio de node para hacer un "hash" en las contraseñas
 const sendMail = require('./sendMail')
 const Joi = require('joi')
+const jwt = require('jsonwebtoken')
 
 const validator = Joi.object({
     name: Joi.string().min(3).max(30).required(),
