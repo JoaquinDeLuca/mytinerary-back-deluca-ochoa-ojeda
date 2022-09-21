@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 let passport = require('../config/passport')
 
-const { signIn, signUp, verifyMail, signOut, readUser } = require('../controllers/userController')
+const { signIn, signUp, verifyMail, signOut, readUser, verifyToken } = require('../controllers/userController')
 
 
 router.post('/signup', signUp)
@@ -11,6 +11,6 @@ router.get('/:id',readUser)
 router.get('/verify/:code', verifyMail)
 router.put('/signout/:mail', signOut)
 
-router.get('/token', passport.authenticate('jwt', {session:false}) , 'elmetodo ej:verifytoken' )
+router.post('/token', passport.authenticate('jwt', {session:false}) , verifyToken )
 
 module.exports = router;
