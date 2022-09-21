@@ -16,7 +16,7 @@ passport.use( // configurarar el pasaporte
             // console.log(jwt_payload)
             try {
                 let user = await User.findOne({ _id : jwt_payload.id })
-
+                // console.log("Passport: "+user)
                 if (user){
                     user = {
                         id: user._id,
