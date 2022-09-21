@@ -266,7 +266,21 @@ const userController = {
         }
     },
     verifyToken: async (req, res ) => {
-
+        console.log(req.user)
+        if (req.user !== null) {
+            res.status(200).json({
+                message:"Welcome T: " + req.user.name,
+                response:{
+                    user:req.user,
+                },
+                succes: true
+            })
+        } else {
+            res.json({
+                succes: false,
+                message:"sign in please!"
+            })
+        }
     }
 }
 
