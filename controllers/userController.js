@@ -127,6 +127,8 @@ const userController = {
                 if (from === "form") { // si el usuario iintenta ingresar por form 
 
                     if (checkPass.length > 0) { // si contraseña coincide
+                        user.logged = true
+                        await user.save()
 
                         const loginUser = {
                             id: user._id,
@@ -136,12 +138,20 @@ const userController = {
                             role: user.role
                         }
 
-                        user.logged = true
-                        await user.save()
+                        const token = jwt.sign(
+                            {id: user._id,
+                            role: user.role,
+                            photo: user.photo}, 
+                            process.env.KEY_JWT,
+                            {expiresIn: 60*60*24}
+                        )
 
                         res.status(200).json({
                             message: "welcome" + user.name,
-                            response: { user: loginUser },
+                            response: { 
+                                user: loginUser,
+                                token: token
+                            },
                             success: true
                         })
 
@@ -154,6 +164,8 @@ const userController = {
 
                 } else { // si el usuario intenta ingresar por redes sociales
                     if (checkPass.length > 0) { // si contraseña coincide
+                        user.logged = true
+                        await user.save()
 
                         const loginUser = {
                             id: user._id,
@@ -162,13 +174,19 @@ const userController = {
                             photo: user.photo,
                             role: user.role
                         }
-
-                        user.logged = true
-                        await user.save()
-
+                        const token = jwt.sign(
+                            {id: user._id,
+                            role: user.role,
+                            photo: user.photo}, 
+                            process.env.KEY_JWT,
+                            {expiresIn: 60*60*24}
+                        )
                         res.status(200).json({
                             message: "welcome " + user.name,
-                            response: { user: loginUser },
+                            response: { 
+                                user: loginUser,
+                                token: token
+                            },
                             success: true
                         })
 
@@ -246,6 +264,9 @@ const userController = {
                 succes: false
             })
         }
+    },
+    verifyToken: async (req, res ) => {
+
     }
 }
 
