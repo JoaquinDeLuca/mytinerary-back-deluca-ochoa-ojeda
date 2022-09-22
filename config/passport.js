@@ -23,7 +23,8 @@ passport.use( // configurarar el pasaporte
                         name: user.name,
                         mail: user.mail,
                         role: user.role,
-                        photo: user.photo
+                        photo: user.photo,
+                        logged: user.logged
                     }
                     return done(null, user) // primer parametro el manejo del error
                 } else {                    // segundo el manejo de la informacion 
