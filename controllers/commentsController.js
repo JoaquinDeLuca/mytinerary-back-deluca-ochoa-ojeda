@@ -91,6 +91,33 @@ const commentsController = {
                 success: false
             })
         }
+    },
+    editComment: async (req, res) => {
+        const { id } = req.params
+        const makeChanges = req.body
+
+        try {
+            let city = await Comment.updateOne({ _id: id }, makeChanges, { new: true })
+            if (city) {
+                res.status(201).json({
+                    message: "the comment was successfully modified",
+                    success: true
+                })
+            }
+            else {
+                res.status(404).json({
+                    message: "comment not found",
+                    success: false
+                })
+            }
+        }
+        catch (error) {
+            console.log(error)
+            res.status(400).json({
+                message: "error modifying this comment",
+                success: false
+            })
+        }
     }
 }
 
