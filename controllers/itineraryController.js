@@ -6,7 +6,7 @@ const validator = Joi.object({
     "name": Joi.string().min(4).max(50).required(),
     "user": Joi.string().required(),
     "city": Joi.string().required(),
-    "price": Joi.number().integer().min(1).max(10).required(),
+    "price": Joi.number().integer().min(1).max(100).required(),
     "likes": Joi.array().required(),
     "tags": Joi.array().items(Joi.string()).required(),
     "duration": Joi.number().integer().min(1).max(12).required(),
@@ -186,6 +186,50 @@ const itineraryController = {
                 succes: false
             })
         }
+    },
+    likeAndDislike: async(req, res) => {
+        // id del usuario que va dar/quitar like 
+        // el itinerario que se quire dar like
+        const {id} = req.params
+
+        let  userId  = req.user.id
+        console.log("userid: "+ userId)
+        console.log("params: " +id)
+        try {
+            let itinerary = await Itinerary.findOne({ _id:id })
+            // si encuentro el itnerario armo la logica de like 
+            if (itinerary.likes.includes(userId)) {
+                itinerary.likes.pull(userId)
+                await itinerary.save()
+                res.status(200).json({
+                    message:"Itinerary disliked",
+                    succes: true
+                })
+
+            } else if (!itinerary.likes.includes(userId)) {
+
+                itinerary.likes.push(userId)
+                await itinerary.save()
+                res.status(200).json({
+                    message:"Itinerary liked",
+                    succes: true
+                })
+
+            } else {
+                res.status(404).json({
+                    message:"Itinerary not found",
+                    succes: true
+                })
+            }
+
+        } catch (error){
+            console.log(error)
+            res.status(400).json({
+                message:"error",
+                succes: false
+            })
+        }
+
     }
 
 }
