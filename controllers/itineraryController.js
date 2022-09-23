@@ -203,7 +203,7 @@ const itineraryController = {
                 await itinerary.save()
                 res.status(200).json({
                     message:"Itinerary disliked",
-                    succes: true
+                    succes: false
                 })
 
             } else if (!itinerary.likes.includes(userId)) {

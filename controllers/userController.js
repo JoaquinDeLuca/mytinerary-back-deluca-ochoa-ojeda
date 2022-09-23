@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs') //recurso propio de node para hacer un "has
 const sendMail = require('./sendMail')
 const Joi = require('joi')
 const jwt = require('jsonwebtoken')
+const { log } = require('console')
 
 const validator = Joi.object({
     name: Joi.string().min(3).max(30).required(),
@@ -279,6 +280,30 @@ const userController = {
             res.json({
                 succes: false,
                 message:"sign in please!"
+            })
+        }
+    },
+    userUpdate: async (req, res) => {
+        const {id} = req.params
+        const makeChanges = req.body
+        try {
+            let user = await User.updateOne({_id: id}, makeChanges, {new: true})
+            if (user) {
+                res.status(201).json({
+                    message: " User successfully modified",
+                    success: true
+                })
+            } else {
+                res.status(404).json({
+                    message: "User not found",
+                    success: false
+                })
+            }
+        } catch (error){
+            console.log(error)
+            res.status(400).json({
+                message: "error modifying this User",
+                success: false
             })
         }
     }
