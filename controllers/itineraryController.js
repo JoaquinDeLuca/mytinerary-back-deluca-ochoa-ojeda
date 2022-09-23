@@ -7,8 +7,8 @@ const validator = Joi.object({
     "user": Joi.string().required(),
     "city": Joi.string().required(),
     "price": Joi.number().integer().min(1).max(100).required(),
-    "likes": Joi.array().required(),
-    "tags": Joi.array().items(Joi.string()).required(),
+    "likes": Joi.array(),
+    "tags": Joi.array().items(Joi.string()),
     "duration": Joi.number().integer().min(1).max(12).required(),
   });
 
@@ -19,9 +19,10 @@ const itineraryController = {
             let result = await validator.validateAsync(req.body)
             console.log(result)
 
-            await new Itinerary(req.body).save()
+            let itinerary = await new Itinerary(req.body).save()
             res.status(201).json({
                 message: "new itinerary created",
+                response: itinerary,
                 success: true
             })
         }
