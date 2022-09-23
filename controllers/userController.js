@@ -3,6 +3,8 @@ const crypto = require('crypto') //libreria generadora de codigos unicos basada 
 const bcryptjs = require('bcryptjs') //recurso propio de node para hacer un "hash" en las contraseñas
 const sendMail = require('./sendMail')
 const Joi = require('joi')
+const jwt = require('jsonwebtoken')
+const { log } = require('console')
 
 const validator = Joi.object({
     name: Joi.string().min(3).max(30).required(),
@@ -126,6 +128,8 @@ const userController = {
                 if (from === "form") { // si el usuario iintenta ingresar por form 
 
                     if (checkPass.length > 0) { // si contraseña coincide
+                        user.logged = true
+                        await user.save()
 
                         const loginUser = {
                             id: user._id,
@@ -135,12 +139,20 @@ const userController = {
                             role: user.role
                         }
 
-                        user.logged = true
-                        await user.save()
+                        const token = jwt.sign(
+                            {id: user._id,
+                            role: user.role,
+                            photo: user.photo}, 
+                            process.env.KEY_JWT,
+                            {expiresIn: 60*60*24}
+                        )
 
                         res.status(200).json({
                             message: "welcome" + user.name,
-                            response: { user: loginUser },
+                            response: { 
+                                user: loginUser,
+                                token: token
+                            },
                             success: true
                         })
 
@@ -153,6 +165,8 @@ const userController = {
 
                 } else { // si el usuario intenta ingresar por redes sociales
                     if (checkPass.length > 0) { // si contraseña coincide
+                        user.logged = true
+                        await user.save()
 
                         const loginUser = {
                             id: user._id,
@@ -161,13 +175,19 @@ const userController = {
                             photo: user.photo,
                             role: user.role
                         }
-
-                        user.logged = true
-                        await user.save()
-
+                        const token = jwt.sign(
+                            {id: user._id,
+                            role: user.role,
+                            photo: user.photo}, 
+                            process.env.KEY_JWT,
+                            {expiresIn: 60*60*24}
+                        )
                         res.status(200).json({
                             message: "welcome " + user.name,
-                            response: { user: loginUser },
+                            response: { 
+                                user: loginUser,
+                                token: token
+                            },
                             success: true
                         })
 
@@ -243,6 +263,47 @@ const userController = {
             res.status(400).json({
                 message:"error",
                 succes: false
+            })
+        }
+    },
+    verifyToken: async (req, res ) => {
+        console.log(req.user)
+        if (req.user !== null) {
+            res.status(200).json({
+                message:"Welcome T: " + req.user.name,
+                response:{
+                    user:req.user,
+                },
+                succes: true
+            })
+        } else {
+            res.json({
+                succes: false,
+                message:"sign in please!"
+            })
+        }
+    },
+    userUpdate: async (req, res) => {
+        const {id} = req.params
+        const makeChanges = req.body
+        try {
+            let user = await User.updateOne({_id: id}, makeChanges, {new: true})
+            if (user) {
+                res.status(201).json({
+                    message: " User successfully modified",
+                    success: true
+                })
+            } else {
+                res.status(404).json({
+                    message: "User not found",
+                    success: false
+                })
+            }
+        } catch (error){
+            console.log(error)
+            res.status(400).json({
+                message: "error modifying this User",
+                success: false
             })
         }
     }
